@@ -1,21 +1,6 @@
 <!--
   DEPLOYMENT GUIDE — 1% SAP CPI Training Website
   ================================================
-  FREE HOSTING OPTIONS:
-
-  OPTION 1: GitHub Pages
-  1. Create a GitHub account at github.com
-  2. Create a new repository named: yourusername.github.io
-  3. Upload index.html to the repository
-  4. Go to Settings > Pages > Source: main branch
-  5. Your site is live at: https://yourusername.github.io
-
-  OPTION 2: Netlify (Recommended — easiest)
-  1. Go to netlify.com and sign up free
-  2. Drag and drop your index.html file onto the Netlify dashboard
-  3. Your site goes live instantly with a free URL
-  4. You can add a custom domain later for free
-
   BEFORE DEPLOYING — Replace these placeholders:
   1. Razorpay: Replace "YOUR_RAZORPAY_KEY_ID" with your actual key from razorpay.com
   2. EmailJS: Replace YOUR_EMAILJS_SERVICE_ID, YOUR_EMAILJS_TEMPLATE_ID, YOUR_EMAILJS_PUBLIC_KEY
@@ -28,37 +13,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>1% — SAP Integration Suite Training</title>
-    <meta
-      name="description"
-      content="Train like the top 1%. Live SAP CPI sessions, enterprise scenarios, capstones, and career acceleration."
-    />
-
+    <meta name="description" content="Train like the top 1%. Live SAP CPI sessions, enterprise scenarios, capstones, and career acceleration." />
     <meta property="og:title" content="1% — SAP Integration Suite Training" />
-    <meta
-      property="og:description"
-      content="Train like the top 1%. Live sessions, real enterprise scenarios, capstone projects, LinkedIn & resume building."
-    />
+    <meta property="og:description" content="Train like the top 1%. Live sessions, real enterprise scenarios, capstone projects, LinkedIn & resume building." />
     <meta property="og:type" content="website" />
-
-    <link
-      rel="icon"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%23D4A017'>1%</text></svg>"
-    />
-
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%23D4A017'>1%</text></svg>" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:wght@600;700;800&display=swap"
-      rel="stylesheet"
-    />
-
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet" />
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
     <style>
       :root {
         --primary: #0a0a0a;
         --accent-gold: #d4a017;
+        --accent-cyan: #00d9ff;
+        --accent-magenta: #ff006e;
+        --accent-lime: #00ff88;
+        --accent-purple: #a78bfa;
         --accent-white: #f5f5f0;
         --card-bg: #111111;
         --section-a: #0f0f0f;
@@ -230,22 +202,61 @@
       }
 
       .btn-primary {
-        background: var(--accent-gold);
+        background: linear-gradient(135deg, var(--accent-gold) 0%, #ffc107 100%);
         color: #0a0a0a;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s ease;
+        z-index: 1;
+      }
+
+      .btn-primary:hover::before {
+        left: 100%;
       }
 
       .btn-primary:hover {
-        filter: brightness(1.07);
+        filter: brightness(1.15);
+        box-shadow: 0 0 16px rgba(212, 160, 23, 0.6);
       }
 
       .btn-outline {
         background: transparent;
         border-color: var(--accent-gold);
         color: var(--accent-gold);
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .btn-outline::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        height: 100%;
+        background: rgba(212, 160, 23, 0.15);
+        transition: right 0.4s ease;
+        z-index: -1;
       }
 
       .btn-outline:hover {
-        background: rgba(212, 160, 23, 0.12);
+        border-color: var(--accent-cyan);
+        color: var(--accent-cyan);
+        background: rgba(0, 217, 255, 0.12);
+      }
+
+      .btn-outline:hover::after {
+        right: 0;
       }
 
       .mobile-toggle {
@@ -353,11 +364,41 @@
           transform: translate(-50%, 0);
           opacity: 0.6;
         }
-
         50% {
           transform: translate(-50%, 8px);
           opacity: 1;
         }
+      }
+
+      @keyframes glow-pulse {
+        0%, 100% {
+          box-shadow: 0 0 8px rgba(212, 160, 23, 0.4), 0 0 16px rgba(212, 160, 23, 0.2);
+        }
+        50% {
+          box-shadow: 0 0 16px rgba(212, 160, 23, 0.8), 0 0 32px rgba(212, 160, 23, 0.5);
+        }
+      }
+
+      @keyframes float-up {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-8px); }
+      }
+
+      @keyframes scale-pop {
+        0% { transform: scale(0.9); opacity: 0; }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); opacity: 1; }
+      }
+
+      @keyframes rotate-border {
+        0% { border-color: var(--accent-gold); }
+        33% { border-color: var(--accent-cyan); }
+        66% { border-color: var(--accent-magenta); }
+        100% { border-color: var(--accent-gold); }
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
       }
 
       .cols-2 {
@@ -417,6 +458,11 @@
         background: var(--card-bg);
         border: 1px solid var(--border);
         padding: 18px;
+        transition: all 0.3s ease;
+      }
+
+      .metric-card:hover {
+        animation: rotate-border 3s linear infinite;
       }
 
       .metric-value {
@@ -424,7 +470,13 @@
         font-family: "Playfair Display", serif;
         font-size: 2rem;
         line-height: 1.1;
+        transition: color 0.3s ease;
       }
+
+      .metric-card:nth-child(1) .metric-value { color: var(--accent-cyan); }
+      .metric-card:nth-child(2) .metric-value { color: var(--accent-magenta); }
+      .metric-card:nth-child(3) .metric-value { color: var(--accent-lime); }
+      .metric-card:nth-child(4) .metric-value { color: var(--accent-purple); }
 
       .metric-label {
         color: #c6c6c6;
@@ -446,12 +498,13 @@
         background: var(--card-bg);
         border: 1px solid var(--border);
         padding: 18px;
-        transition: border-color 0.3s ease, transform 0.3s ease;
+        transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
       }
 
       .card:hover {
         border-color: var(--accent-gold);
-        transform: translateY(-2px);
+        transform: translateY(-4px);
+        animation: glow-pulse 1.5s ease-in-out infinite;
       }
 
       .card-icon {
@@ -554,10 +607,26 @@
         display: grid;
         place-items: center;
         color: var(--accent-gold);
-        border: 1px solid var(--accent-gold);
+        border: 2px solid var(--accent-gold);
         margin-bottom: 12px;
         font-family: "JetBrains Mono", monospace;
         font-size: 1.25rem;
+        animation: float-up 2.5s ease-in-out infinite, scale-pop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .instructor-grid .card:nth-child(1) .avatar {
+        border-color: var(--accent-cyan);
+        color: var(--accent-cyan);
+      }
+
+      .instructor-grid .card:nth-child(2) .avatar {
+        border-color: var(--accent-magenta);
+        color: var(--accent-magenta);
+      }
+
+      .instructor-grid .card:nth-child(3) .avatar {
+        border-color: var(--accent-purple);
+        color: var(--accent-purple);
       }
 
       .tags {
@@ -573,7 +642,17 @@
         padding: 4px 8px;
         font-size: 0.78rem;
         border-radius: 14px;
+        transition: all 0.3s ease;
       }
+
+      .tag:hover {
+        background: rgba(212, 160, 23, 0.2);
+        box-shadow: 0 0 8px rgba(212, 160, 23, 0.5);
+      }
+
+      .instructor-grid .card:nth-child(1) .tag { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+      .instructor-grid .card:nth-child(2) .tag { border-color: var(--accent-magenta); color: var(--accent-magenta); }
+      .instructor-grid .card:nth-child(3) .tag { border-color: var(--accent-purple); color: var(--accent-purple); }
 
       .linkedin-btn {
         width: 44px;
@@ -592,8 +671,15 @@
         max-width: 760px;
         margin: 0 auto;
         background: var(--card-bg);
-        border: 1px solid var(--border);
+        border: 2px solid var(--accent-gold);
         padding: 24px;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .pricing-card:hover {
+        animation: glow-pulse 1.5s ease-in-out infinite;
+        border-color: var(--accent-cyan);
       }
 
       .plan-price {
@@ -688,12 +774,6 @@
         border-radius: 50%;
         display: none;
         animation: spin 0.8s linear infinite;
-      }
-
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
       }
 
       footer {
@@ -936,7 +1016,7 @@
           </div>
 
           <blockquote class="animate" data-delay="300">
-            This gap is why developers “know” CPI but don’t feel ready.
+            This gap is why developers "know" CPI but don't feel ready.
           </blockquote>
         </div>
       </section>
@@ -977,7 +1057,7 @@
         <div class="container">
           <h2 class="animate">What Makes 1% Different</h2>
           <p class="section-subtitle animate" data-delay="100">
-            We don’t add more content. We change how you learn.
+            We don't add more content. We change how you learn.
           </p>
 
           <div class="feature-grid">
@@ -994,7 +1074,7 @@
             <article class="card animate" data-delay="200">
               <svg class="card-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.7"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="1.7"/></svg>
               <h3>Debug-First Training</h3>
-              <p>You’ll spend as much time debugging as building — exactly like real projects.</p>
+              <p>You'll spend as much time debugging as building — exactly like real projects.</p>
             </article>
             <article class="card animate" data-delay="300">
               <svg class="card-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 4h10v16H7zM9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.7"/></svg>
@@ -1063,15 +1143,14 @@
 
           <div class="instructor-grid">
             <article class="card animate">
-              <div class="avatar" aria-hidden="true">PK</div>
-              <h3>Pavan Kolla</h3>
-              <p class="section-subtitle" style="margin-bottom:8px">SAP CPI & Integration Architect</p>
+              <div class="avatar" aria-hidden="true">NK</div>
+              <h3>Nanda Kishore D</h3>
+              <p class="section-subtitle" style="margin-bottom:8px">SAP CPI Consultant</p>
               <div class="tags">
                 <span class="tag">SAP CPI</span>
                 <span class="tag">SAP Products</span>
-                <span class="tag">SAP AI/ML</span>
               </div>
-              <a class="linkedin-btn" href="https://www.linkedin.com/in/kolla-pavan-41aa4522a" target="_blank" rel="noopener noreferrer" aria-label="Visit Pavan Kolla LinkedIn">
+              <a class="linkedin-btn" href="https://www.linkedin.com/in/nanda4" target="_blank" rel="noopener noreferrer" aria-label="Visit Nanda Kishore D LinkedIn">
                 in
               </a>
             </article>
@@ -1091,14 +1170,15 @@
             </article>
 
             <article class="card animate" data-delay="200">
-              <div class="avatar" aria-hidden="true">NK</div>
-              <h3>Nanda Kishore D</h3>
-              <p class="section-subtitle" style="margin-bottom:8px">SAP CPI Consultant</p>
+              <div class="avatar" aria-hidden="true">PK</div>
+              <h3>Pavan Kolla</h3>
+              <p class="section-subtitle" style="margin-bottom:8px">SAP CPI & Integration Architect</p>
               <div class="tags">
                 <span class="tag">SAP CPI</span>
                 <span class="tag">SAP Products</span>
+                <span class="tag">SAP AI/ML</span>
               </div>
-              <a class="linkedin-btn" href="https://www.linkedin.com/in/nanda4" target="_blank" rel="noopener noreferrer" aria-label="Visit Nanda Kishore D LinkedIn">
+              <a class="linkedin-btn" href="https://www.linkedin.com/in/kolla-pavan-41aa4522a" target="_blank" rel="noopener noreferrer" aria-label="Visit Pavan Kolla LinkedIn">
                 in
               </a>
             </article>
@@ -1143,8 +1223,8 @@
 
       <section class="section" id="contact">
         <div class="container">
-          <h2 class="animate">Have Questions? Let’s Talk.</h2>
-          <p class="section-subtitle animate" data-delay="100">Reach out and we’ll get back to you within 24 hours.</p>
+          <h2 class="animate">Have Questions? Let's Talk.</h2>
+          <p class="section-subtitle animate" data-delay="100">Reach out and we'll get back to you within 24 hours.</p>
 
           <div class="form-grid">
             <aside class="panel contact-info animate" data-delay="100">
@@ -1228,9 +1308,9 @@
         </div>
 
         <div class="footer-mid footer-social">
-          <a href="https://www.linkedin.com/in/kolla-pavan-41aa4522a" target="_blank" rel="noopener noreferrer">Pavan Kolla — LinkedIn</a>
-          <a href="https://www.linkedin.com/in/sgunaar" target="_blank" rel="noopener noreferrer">Gunashekar Ch — LinkedIn</a>
           <a href="https://www.linkedin.com/in/nanda4" target="_blank" rel="noopener noreferrer">Nanda Kishore D — LinkedIn</a>
+          <a href="https://www.linkedin.com/in/sgunaar" target="_blank" rel="noopener noreferrer">Gunashekar Ch — LinkedIn</a>
+          <a href="https://www.linkedin.com/in/kolla-pavan-41aa4522a" target="_blank" rel="noopener noreferrer">Pavan Kolla — LinkedIn</a>
         </div>
 
         <div class="footer-bottom" style="color: var(--text-muted)">
@@ -1513,7 +1593,7 @@
           );
 
           formStatus.className = "form-status success";
-          formStatus.textContent = "✓ Message sent! We’ll reply within 24 hours.";
+          formStatus.textContent = "✓ Message sent! We'll reply within 24 hours.";
           enquiryForm.reset();
         } catch (error) {
           formStatus.className = "form-status error";
