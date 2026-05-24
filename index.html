@@ -1,0 +1,1528 @@
+<!--
+  DEPLOYMENT GUIDE — 1% SAP CPI Training Website
+  ================================================
+  FREE HOSTING OPTIONS:
+
+  OPTION 1: GitHub Pages
+  1. Create a GitHub account at github.com
+  2. Create a new repository named: yourusername.github.io
+  3. Upload index.html to the repository
+  4. Go to Settings > Pages > Source: main branch
+  5. Your site is live at: https://yourusername.github.io
+
+  OPTION 2: Netlify (Recommended — easiest)
+  1. Go to netlify.com and sign up free
+  2. Drag and drop your index.html file onto the Netlify dashboard
+  3. Your site goes live instantly with a free URL
+  4. You can add a custom domain later for free
+
+  BEFORE DEPLOYING — Replace these placeholders:
+  1. Razorpay: Replace "YOUR_RAZORPAY_KEY_ID" with your actual key from razorpay.com
+  2. EmailJS: Replace YOUR_EMAILJS_SERVICE_ID, YOUR_EMAILJS_TEMPLATE_ID, YOUR_EMAILJS_PUBLIC_KEY
+     — Sign up free at emailjs.com, create a Gmail service, create a template
+  3. WhatsApp link: Replace the # with your WhatsApp group invite link
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1% — SAP Integration Suite Training</title>
+    <meta
+      name="description"
+      content="Train like the top 1%. Live SAP CPI sessions, enterprise scenarios, capstones, and career acceleration."
+    />
+
+    <meta property="og:title" content="1% — SAP Integration Suite Training" />
+    <meta
+      property="og:description"
+      content="Train like the top 1%. Live sessions, real enterprise scenarios, capstone projects, LinkedIn & resume building."
+    />
+    <meta property="og:type" content="website" />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%23D4A017'>1%</text></svg>"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <style>
+      :root {
+        --primary: #0a0a0a;
+        --accent-gold: #d4a017;
+        --accent-white: #f5f5f0;
+        --card-bg: #111111;
+        --section-a: #0f0f0f;
+        --section-b: #1a1a1a;
+        --text-primary: #f5f5f0;
+        --text-muted: #888888;
+        --border: #2a2a2a;
+        --danger: #d04f4f;
+        --success: #72d18c;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--primary);
+        color: var(--text-primary);
+        line-height: 1.6;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .container {
+        width: min(1120px, 92%);
+        margin: 0 auto;
+      }
+
+      .section {
+        position: relative;
+        padding: 86px 0;
+        overflow: hidden;
+      }
+
+      .section:nth-of-type(even) {
+        background: var(--section-a);
+      }
+
+      .section:nth-of-type(odd) {
+        background: var(--section-b);
+      }
+
+      .section::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(212, 160, 23, 0.09) 1px, transparent 1px);
+        background-size: 18px 18px;
+        pointer-events: none;
+        opacity: 0.15;
+      }
+
+      .divider {
+        border: none;
+        border-top: 1px solid var(--accent-gold);
+        opacity: 0.65;
+      }
+
+      .section h2 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(30px, 4vw, 46px);
+        line-height: 1.2;
+        margin-bottom: 12px;
+      }
+
+      .section-subtitle {
+        color: var(--text-muted);
+        font-size: 1.05rem;
+        max-width: 760px;
+        margin-bottom: 30px;
+      }
+
+      .top-nav {
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        transition: all 0.3s ease;
+      }
+
+      .top-nav.scrolled {
+        background: rgba(10, 10, 10, 0.82);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-inner {
+        min-height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .brand-mark {
+        font-family: "Playfair Display", serif;
+        color: var(--accent-gold);
+        font-size: 2rem;
+        line-height: 1;
+        font-weight: 800;
+      }
+
+      .brand-text {
+        letter-spacing: 0.16em;
+        font-size: 0.74rem;
+        text-transform: uppercase;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        list-style: none;
+      }
+
+      .nav-link {
+        color: var(--text-primary);
+        opacity: 0.9;
+        font-size: 0.95rem;
+      }
+
+      .nav-link.active,
+      .nav-link:hover {
+        color: var(--accent-gold);
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 18px;
+        min-height: 44px;
+        border-radius: 0;
+        border: 1px solid transparent;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+        transition: 0.25s ease;
+        cursor: pointer;
+      }
+
+      .btn:focus-visible,
+      input:focus-visible,
+      textarea:focus-visible,
+      select:focus-visible,
+      .mobile-toggle:focus-visible {
+        outline: 2px solid var(--accent-gold);
+        outline-offset: 2px;
+      }
+
+      .btn-primary {
+        background: var(--accent-gold);
+        color: #0a0a0a;
+      }
+
+      .btn-primary:hover {
+        filter: brightness(1.07);
+      }
+
+      .btn-outline {
+        background: transparent;
+        border-color: var(--accent-gold);
+        color: var(--accent-gold);
+      }
+
+      .btn-outline:hover {
+        background: rgba(212, 160, 23, 0.12);
+      }
+
+      .mobile-toggle {
+        display: none;
+        width: 44px;
+        height: 44px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text-primary);
+        cursor: pointer;
+      }
+
+      .mobile-drawer {
+        display: none;
+      }
+
+      #hero {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #0a0a0a;
+        position: relative;
+      }
+
+      #hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(212, 160, 23, 0.11) 1px, transparent 1px);
+        background-size: 20px 20px;
+        opacity: 0.3;
+      }
+
+      .hero-content {
+        position: relative;
+        text-align: center;
+        max-width: 900px;
+        z-index: 1;
+      }
+
+      .hero-logo {
+        margin-bottom: 14px;
+      }
+
+      .hero-logo .brand-mark {
+        font-size: clamp(52px, 8vw, 82px);
+      }
+
+      .tagline {
+        color: var(--text-muted);
+        font-size: 0.94rem;
+      }
+
+      .hero-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(36px, 6vw, 64px);
+        line-height: 1.1;
+        margin: 16px 0 14px;
+      }
+
+      .hero-title .gold {
+        color: var(--accent-gold);
+      }
+
+      .hero-subtitle {
+        max-width: 760px;
+        margin: 0 auto;
+        color: var(--text-muted);
+        font-size: clamp(1rem, 2vw, 1.2rem);
+      }
+
+      .hero-actions {
+        margin-top: 28px;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .trust-badges {
+        list-style: none;
+        margin-top: 24px;
+        display: flex;
+        justify-content: center;
+        gap: 18px;
+        flex-wrap: wrap;
+        color: #d7d7d7;
+        font-size: 0.95rem;
+      }
+
+      .scroll-indicator {
+        position: absolute;
+        bottom: 18px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: var(--accent-gold);
+        animation: bounce 1.5s infinite;
+        font-size: 1.4rem;
+        z-index: 1;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translate(-50%, 0);
+          opacity: 0.6;
+        }
+
+        50% {
+          transform: translate(-50%, 8px);
+          opacity: 1;
+        }
+      }
+
+      .cols-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+      }
+
+      .panel {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        padding: 24px;
+      }
+
+      .panel h3 {
+        font-family: "Playfair Display", serif;
+        margin-bottom: 12px;
+        font-size: 1.45rem;
+      }
+
+      .list-clean {
+        list-style: none;
+        display: grid;
+        gap: 10px;
+      }
+
+      .x {
+        color: #d15f5f;
+        margin-right: 8px;
+        font-weight: 700;
+      }
+
+      .check {
+        color: var(--accent-gold);
+        margin-right: 8px;
+        font-weight: 700;
+      }
+
+      blockquote {
+        margin-top: 26px;
+        border-left: 3px solid var(--accent-gold);
+        padding: 12px 18px;
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.3rem, 2.5vw, 2rem);
+        color: var(--accent-gold);
+        text-align: center;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin: 26px 0 20px;
+      }
+
+      .metric-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        padding: 18px;
+      }
+
+      .metric-value {
+        color: var(--accent-gold);
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        line-height: 1.1;
+      }
+
+      .metric-label {
+        color: #c6c6c6;
+      }
+
+      .text-link {
+        color: var(--accent-gold);
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        padding: 18px;
+        transition: border-color 0.3s ease, transform 0.3s ease;
+      }
+
+      .card:hover {
+        border-color: var(--accent-gold);
+        transform: translateY(-2px);
+      }
+
+      .card-icon {
+        width: 28px;
+        height: 28px;
+        margin-bottom: 10px;
+        color: var(--accent-gold);
+      }
+
+      .card h3,
+      .card h4 {
+        font-family: "Playfair Display", serif;
+        margin-bottom: 8px;
+      }
+
+      .accordion {
+        border: 1px solid var(--border);
+      }
+
+      .acc-item {
+        border-bottom: 1px solid var(--border);
+        background: var(--card-bg);
+      }
+
+      .acc-item:last-child {
+        border-bottom: none;
+      }
+
+      .acc-btn {
+        width: 100%;
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        text-align: left;
+        padding: 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 44px;
+      }
+
+      .stage-number {
+        color: var(--accent-gold);
+        font-weight: 700;
+        font-family: "JetBrains Mono", monospace;
+        min-width: 88px;
+      }
+
+      .acc-title {
+        flex: 1;
+      }
+
+      .acc-arrow {
+        color: var(--accent-gold);
+        transition: transform 0.25s ease;
+      }
+
+      .acc-item.open .acc-arrow {
+        transform: rotate(180deg);
+      }
+
+      .acc-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+      }
+
+      .acc-content-inner {
+        padding: 0 16px 16px;
+        color: #cccccc;
+      }
+
+      .highlight-grid {
+        margin-top: 16px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .audience-grid,
+      .instructor-grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      .audience-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .instructor-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .avatar {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        color: var(--accent-gold);
+        border: 1px solid var(--accent-gold);
+        margin-bottom: 12px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 1.25rem;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 12px 0;
+      }
+
+      .tag {
+        border: 1px solid var(--accent-gold);
+        color: var(--accent-gold);
+        padding: 4px 8px;
+        font-size: 0.78rem;
+        border-radius: 14px;
+      }
+
+      .linkedin-btn {
+        width: 44px;
+        height: 44px;
+        border: 1px solid var(--accent-gold);
+        color: var(--accent-gold);
+        display: grid;
+        place-items: center;
+      }
+
+      .linkedin-btn:hover {
+        background: rgba(212, 160, 23, 0.12);
+      }
+
+      .pricing-card {
+        max-width: 760px;
+        margin: 0 auto;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        padding: 24px;
+      }
+
+      .plan-price {
+        font-family: "Playfair Display", serif;
+        color: var(--accent-gold);
+        font-size: clamp(2.4rem, 6vw, 3.5rem);
+        line-height: 1.1;
+        margin: 8px 0;
+      }
+
+      .feature-list {
+        list-style: none;
+        margin: 16px 0;
+        display: grid;
+        gap: 8px;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: 0.95fr 1.05fr;
+        gap: 20px;
+      }
+
+      .contact-info p {
+        margin-bottom: 10px;
+        color: #d0d0d0;
+      }
+
+      .contact-info a {
+        color: var(--accent-gold);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      form {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        padding: 20px;
+      }
+
+      .field {
+        margin-bottom: 13px;
+      }
+
+      label {
+        display: inline-block;
+        margin-bottom: 6px;
+        font-weight: 500;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        min-height: 44px;
+        border: 1px solid var(--border);
+        background: #0f0f0f;
+        color: var(--text-primary);
+        padding: 10px 12px;
+        border-radius: 0;
+      }
+
+      textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+
+      .error-msg {
+        color: var(--danger);
+        font-size: 0.82rem;
+        margin-top: 4px;
+      }
+
+      .form-status {
+        margin-top: 10px;
+        font-size: 0.95rem;
+      }
+
+      .form-status.success {
+        color: var(--success);
+      }
+
+      .form-status.error {
+        color: var(--danger);
+      }
+
+      .spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(0, 0, 0, 0.35);
+        border-top-color: #000;
+        border-radius: 50%;
+        display: none;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      footer {
+        background: #0a0a0a;
+        border-top: 1px solid var(--accent-gold);
+        padding: 34px 0 22px;
+      }
+
+      .footer-top,
+      .footer-mid,
+      .footer-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .footer-mid {
+        margin: 14px 0;
+      }
+
+      .footer-links,
+      .footer-social {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      .footer-links a:hover,
+      .footer-social a:hover {
+        color: var(--accent-gold);
+      }
+
+      .back-to-top {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 300;
+        border: none;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(12px);
+        transition: all 0.3s ease;
+      }
+
+      .back-to-top.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .animate {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      }
+
+      .animate.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 768px) {
+        .nav-links,
+        .desktop-cta {
+          display: none;
+        }
+
+        .mobile-toggle {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .mobile-drawer {
+          display: grid;
+          grid-template-rows: 0fr;
+          transition: grid-template-rows 0.25s ease;
+          border-top: 1px solid transparent;
+        }
+
+        .mobile-drawer.open {
+          grid-template-rows: 1fr;
+          border-top-color: var(--border);
+          background: rgba(10, 10, 10, 0.95);
+        }
+
+        .mobile-drawer-inner {
+          overflow: hidden;
+          display: grid;
+          gap: 10px;
+          padding: 0 4%;
+        }
+
+        .mobile-link {
+          padding: 10px 0;
+          min-height: 44px;
+          display: flex;
+          align-items: center;
+        }
+
+        .cols-2,
+        .feature-grid,
+        .metrics,
+        .audience-grid,
+        .instructor-grid,
+        .highlight-grid,
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-title {
+          font-size: clamp(36px, 10vw, 42px);
+        }
+
+        .pricing-card {
+          width: 100%;
+        }
+
+        .form-grid {
+          gap: 14px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .section {
+          padding: 72px 0;
+        }
+
+        .hero-actions {
+          flex-direction: column;
+        }
+
+        .hero-actions .btn {
+          width: 100%;
+        }
+
+        .trust-badges {
+          gap: 10px;
+          font-size: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="top-nav" id="topNav">
+      <div class="container nav-inner">
+        <a href="#hero" class="brand" aria-label="Go to top">
+          <span class="brand-mark">1%</span>
+          <span class="brand-text">One Percent</span>
+        </a>
+
+        <nav aria-label="Main navigation">
+          <ul class="nav-links">
+            <li><a class="nav-link" href="#about">About</a></li>
+            <li><a class="nav-link" href="#curriculum">Curriculum</a></li>
+            <li><a class="nav-link" href="#instructors">Instructors</a></li>
+            <li><a class="nav-link" href="#pricing">Pricing</a></li>
+            <li><a class="nav-link" href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <a class="btn btn-primary desktop-cta" href="#pricing">Enroll Now</a>
+
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu" aria-expanded="false">
+          ☰
+        </button>
+      </div>
+
+      <div class="mobile-drawer" id="mobileDrawer">
+        <div class="mobile-drawer-inner">
+          <a class="mobile-link" href="#about">About</a>
+          <a class="mobile-link" href="#curriculum">Curriculum</a>
+          <a class="mobile-link" href="#instructors">Instructors</a>
+          <a class="mobile-link" href="#pricing">Pricing</a>
+          <a class="mobile-link" href="#contact">Contact</a>
+          <a class="btn btn-primary" href="#pricing">Enroll Now</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="hero">
+        <div class="container hero-content">
+          <div class="hero-logo animate">
+            <div class="brand-mark">1%</div>
+            <p class="tagline">Train like the top 1%. Think like an enterprise engineer.</p>
+          </div>
+
+          <h1 class="hero-title animate" data-delay="100">
+            The SAP Integration Engineers<br />
+            <span class="gold">Nobody Talks About.</span>
+          </h1>
+
+          <p class="hero-subtitle animate" data-delay="200">
+            Most courses teach you CPI features. We train you to think, design, debug, and deliver like an enterprise integration engineer.
+          </p>
+
+          <div class="hero-actions animate" data-delay="300">
+            <a href="#pricing" class="btn btn-primary">Enroll Now — ₹34,999</a>
+            <a href="#curriculum" class="btn btn-outline">View Curriculum</a>
+          </div>
+
+          <ul class="trust-badges animate" data-delay="400">
+            <li>⬡ Live Sessions</li>
+            <li>⬡ 9 Stages</li>
+            <li>⬡ 2 Capstone Projects</li>
+          </ul>
+        </div>
+
+        <div class="scroll-indicator" aria-hidden="true">⌄</div>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="section" id="about">
+        <div class="container">
+          <h2 class="animate">Why Most CPI Learners Stay Stuck</h2>
+          <div class="cols-2">
+            <article class="panel animate" data-delay="100">
+              <h3>What most courses teach</h3>
+              <ul class="list-clean">
+                <li><span class="x">×</span>Features & configurations</li>
+                <li><span class="x">×</span>Basic step-by-step tutorials</li>
+                <li><span class="x">×</span>Predefined clean examples</li>
+                <li><span class="x">×</span>Certification prep only</li>
+              </ul>
+            </article>
+            <article class="panel animate" data-delay="200">
+              <h3>What real enterprise work demands</h3>
+              <ul class="list-clean">
+                <li><span class="check">✓</span>Problem-solving under pressure</li>
+                <li><span class="check">✓</span>Debugging unclear errors</li>
+                <li><span class="check">✓</span>Decision-making at scale</li>
+                <li><span class="check">✓</span>Real system behavior understanding</li>
+                <li><span class="check">✓</span>Production-level confidence</li>
+              </ul>
+            </article>
+          </div>
+
+          <blockquote class="animate" data-delay="300">
+            This gap is why developers “know” CPI but don’t feel ready.
+          </blockquote>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="section">
+        <div class="container">
+          <h2 class="animate">The Integration Boom Is Happening Now</h2>
+          <div class="metrics">
+            <article class="metric-card animate" data-delay="0">
+              <div class="metric-value">18–26%</div>
+              <p class="metric-label">Annual Market Growth Rate</p>
+            </article>
+            <article class="metric-card animate" data-delay="100">
+              <div class="metric-value">85%+</div>
+              <p class="metric-label">SAP Customers Planning Cloud Integration</p>
+            </article>
+            <article class="metric-card animate" data-delay="200">
+              <div class="metric-value">$125,000</div>
+              <p class="metric-label">Avg. Annual Salary (Global)</p>
+            </article>
+            <article class="metric-card animate" data-delay="300">
+              <div class="metric-value">1000+</div>
+              <p class="metric-label">Active Community Members</p>
+            </article>
+          </div>
+          <p class="section-subtitle animate" data-delay="200">
+            Enterprises are aggressively moving integration workloads to the cloud and need engineers who can do more than drag-and-drop. Teams are hiring professionals who can diagnose, design, and deliver at production scale.
+          </p>
+          <a href="#curriculum" class="text-link animate" data-delay="300">See Full Curriculum →</a>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="section">
+        <div class="container">
+          <h2 class="animate">What Makes 1% Different</h2>
+          <p class="section-subtitle animate" data-delay="100">
+            We don’t add more content. We change how you learn.
+          </p>
+
+          <div class="feature-grid">
+            <article class="card animate" data-delay="0">
+              <svg class="card-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.7"/></svg>
+              <h3>Live Sessions Only</h3>
+              <p>Every class is live. Ask questions, debug in real time, learn by doing.</p>
+            </article>
+            <article class="card animate" data-delay="100">
+              <svg class="card-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20h16V8l-8-4-8 4v12Z" stroke="currentColor" stroke-width="1.7"/></svg>
+              <h3>Real Enterprise Scenarios</h3>
+              <p>No clean tutorial demos. Messy payloads, real errors, production patterns.</p>
+            </article>
+            <article class="card animate" data-delay="200">
+              <svg class="card-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.7"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="1.7"/></svg>
+              <h3>Debug-First Training</h3>
+              <p>You’ll spend as much time debugging as building — exactly like real projects.</p>
+            </article>
+            <article class="card animate" data-delay="300">
+              <svg class="card-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 4h10v16H7zM9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.7"/></svg>
+              <h3>FRD & SDD Documentation</h3>
+              <p>Learn to write Functional Requirement Docs and Solution Design Docs like a senior consultant.</p>
+            </article>
+            <article class="card animate" data-delay="400">
+              <svg class="card-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="5" width="16" height="14" stroke="currentColor" stroke-width="1.7"/><path d="M8 9h8M8 13h8" stroke="currentColor" stroke-width="1.7"/></svg>
+              <h3>LinkedIn + Resume Building</h3>
+              <p>Profile engineering, resume structure, and job strategy — skills 99% of courses skip.</p>
+            </article>
+            <article class="card animate" data-delay="500">
+              <svg class="card-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 4 7v5c0 5 3.4 7.8 8 9 4.6-1.2 8-4 8-9V7l-8-4Z" stroke="currentColor" stroke-width="1.7"/></svg>
+              <h3>Mock Interviews Included</h3>
+              <p>Scenario-based mock interviews with real-time feedback and architecture walkthroughs.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="section" id="curriculum">
+        <div class="container">
+          <h2 class="animate">The 9-Stage Curriculum</h2>
+          <p class="section-subtitle animate" data-delay="100">
+            Built for professionals who want to operate at the top 1%.
+          </p>
+
+          <div class="accordion" id="curriculumAccordion"></div>
+
+          <div class="highlight-grid">
+            <article class="card animate" data-delay="100">
+              <h3>8 Weekly Milestone Projects</h3>
+              <p>One hands-on project every Saturday.</p>
+            </article>
+            <article class="card animate" data-delay="200">
+              <h3>2 Capstone Projects</h3>
+              <p>Full end-to-end real enterprise builds.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="section">
+        <div class="container">
+          <h2 class="animate">Who Should Join</h2>
+          <div class="audience-grid">
+            <article class="card animate"><h3>Fresh Graduates</h3><p>No experience needed. We build your foundation from scratch.</p></article>
+            <article class="card animate" data-delay="100"><h3>IT Professionals</h3><p>Developers, QA, backend engineers ready to specialize in integration.</p></article>
+            <article class="card animate" data-delay="200"><h3>SAP Functional Consultants</h3><p>SD, MM, FICO, HCM professionals moving into the technical layer.</p></article>
+            <article class="card animate" data-delay="300"><h3>SAP PI/PO Consultants</h3><p>Your experience is an advantage. Fill every cloud gap.</p></article>
+            <article class="card animate" data-delay="400"><h3>Career Changers</h3><p>Structured entry into one of the fastest-growing SAP domains.</p></article>
+            <article class="card animate" data-delay="500"><h3>Business Analysts & PMs</h3><p>Understand integration architecture to lead delivery confidently.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="section" id="instructors">
+        <div class="container">
+          <h2 class="animate">Your Instructors</h2>
+
+          <div class="instructor-grid">
+            <article class="card animate">
+              <div class="avatar" aria-hidden="true">PK</div>
+              <h3>Pavan Kolla</h3>
+              <p class="section-subtitle" style="margin-bottom:8px">SAP CPI & Integration Architect</p>
+              <div class="tags">
+                <span class="tag">SAP CPI</span>
+                <span class="tag">SAP Products</span>
+                <span class="tag">SAP AI/ML</span>
+              </div>
+              <a class="linkedin-btn" href="https://www.linkedin.com/in/kolla-pavan-41aa4522a" target="_blank" rel="noopener noreferrer" aria-label="Visit Pavan Kolla LinkedIn">
+                in
+              </a>
+            </article>
+
+            <article class="card animate" data-delay="100">
+              <div class="avatar" aria-hidden="true">GC</div>
+              <h3>Gunashekar Ch</h3>
+              <p class="section-subtitle" style="margin-bottom:8px">SAP Integration Specialist</p>
+              <div class="tags">
+                <span class="tag">SAP CPI</span>
+                <span class="tag">SAP Products</span>
+                <span class="tag">SAP AI/ML</span>
+              </div>
+              <a class="linkedin-btn" href="https://www.linkedin.com/in/sgunaar" target="_blank" rel="noopener noreferrer" aria-label="Visit Gunashekar Ch LinkedIn">
+                in
+              </a>
+            </article>
+
+            <article class="card animate" data-delay="200">
+              <div class="avatar" aria-hidden="true">NK</div>
+              <h3>Nanda Kishore D</h3>
+              <p class="section-subtitle" style="margin-bottom:8px">SAP CPI Consultant</p>
+              <div class="tags">
+                <span class="tag">SAP CPI</span>
+                <span class="tag">SAP Products</span>
+              </div>
+              <a class="linkedin-btn" href="https://www.linkedin.com/in/nanda4" target="_blank" rel="noopener noreferrer" aria-label="Visit Nanda Kishore D LinkedIn">
+                in
+              </a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="section" id="pricing">
+        <div class="container">
+          <h2 class="animate">One Investment. Career-Changing Results.</h2>
+
+          <article class="pricing-card animate" data-delay="100">
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem">1% Cohort — Full Program</h3>
+            <p class="plan-price">₹34,999</p>
+            <p class="section-subtitle" style="margin-bottom: 12px">One-time payment · Lifetime access to recordings</p>
+
+            <ul class="feature-list">
+              <li><span class="check">✓</span>9 Complete Stages · 60+ Live Sessions</li>
+              <li><span class="check">✓</span>8 Weekly Milestone Projects</li>
+              <li><span class="check">✓</span>2 Full Capstone Projects (End-to-End)</li>
+              <li><span class="check">✓</span>Groovy Template Library (Production-Ready)</li>
+              <li><span class="check">✓</span>FRD + SDD Documentation Training</li>
+              <li><span class="check">✓</span>LinkedIn & Resume Building Sessions</li>
+              <li><span class="check">✓</span>Mock Interviews with Real-Time Feedback</li>
+              <li><span class="check">✓</span>1000+ Member Community Access</li>
+              <li><span class="check">✓</span>Career Guidance & Job Strategy</li>
+              <li><span class="check">✓</span>All Recordings Included</li>
+            </ul>
+
+            <button id="payNowBtn" class="btn btn-primary" style="width:100%">Pay Now — ₹34,999</button>
+            <p style="margin-top:8px; color: var(--text-muted); font-size:0.92rem">
+              Secure payment via Razorpay · UPI, Cards, Net Banking accepted
+            </p>
+            <p id="paymentStatus" class="form-status" aria-live="polite"></p>
+          </article>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="section" id="contact">
+        <div class="container">
+          <h2 class="animate">Have Questions? Let’s Talk.</h2>
+          <p class="section-subtitle animate" data-delay="100">Reach out and we’ll get back to you within 24 hours.</p>
+
+          <div class="form-grid">
+            <aside class="panel contact-info animate" data-delay="100">
+              <p><strong>Direct Enquiry</strong></p>
+              <p>
+                Email:
+                <a href="mailto:pavankolla75@gmail.com">pavankolla75@gmail.com</a>
+              </p>
+              <p>For batch details, payment plans, or corporate training enquiries.</p>
+              <p>
+                Or join our WhatsApp community:
+                <a href="#" aria-label="Join WhatsApp community">Join here</a>
+              </p>
+            </aside>
+
+            <form id="enquiryForm" class="animate" data-delay="200" novalidate>
+              <div class="field">
+                <label for="fullName">Full Name *</label>
+                <input id="fullName" name="fullName" type="text" required />
+                <div class="error-msg" id="error-fullName"></div>
+              </div>
+
+              <div class="field">
+                <label for="emailAddress">Email Address *</label>
+                <input id="emailAddress" name="emailAddress" type="email" required />
+                <div class="error-msg" id="error-emailAddress"></div>
+              </div>
+
+              <div class="field">
+                <label for="phoneNumber">Phone Number</label>
+                <input id="phoneNumber" name="phoneNumber" type="tel" />
+                <div class="error-msg" id="error-phoneNumber"></div>
+              </div>
+
+              <div class="field">
+                <label for="background">Background *</label>
+                <select id="background" name="background" required>
+                  <option value="">Select your background</option>
+                  <option>Fresh Graduate</option>
+                  <option>IT Professional</option>
+                  <option>SAP PI/PO Consultant</option>
+                  <option>SAP Functional Consultant</option>
+                  <option>Career Changer</option>
+                  <option>Other</option>
+                </select>
+                <div class="error-msg" id="error-background"></div>
+              </div>
+
+              <div class="field">
+                <label for="message">Message / Question</label>
+                <textarea id="message" name="message" rows="4"></textarea>
+                <div class="error-msg" id="error-message"></div>
+              </div>
+
+              <button id="submitBtn" class="btn btn-primary" style="width:100%" type="submit">
+                <span class="spinner" id="submitSpinner" aria-hidden="true"></span>
+                <span>Send Enquiry</span>
+              </button>
+
+              <p id="formStatus" class="form-status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-top">
+          <div>
+            <span class="brand-mark">1%</span>
+            <p style="color: var(--text-muted)">Train like the top 1%.</p>
+          </div>
+          <nav class="footer-links" aria-label="Footer navigation">
+            <a href="#about">About</a>
+            <a href="#curriculum">Curriculum</a>
+            <a href="#instructors">Instructors</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#contact">Contact</a>
+          </nav>
+        </div>
+
+        <div class="footer-mid footer-social">
+          <a href="https://www.linkedin.com/in/kolla-pavan-41aa4522a" target="_blank" rel="noopener noreferrer">Pavan Kolla — LinkedIn</a>
+          <a href="https://www.linkedin.com/in/sgunaar" target="_blank" rel="noopener noreferrer">Gunashekar Ch — LinkedIn</a>
+          <a href="https://www.linkedin.com/in/nanda4" target="_blank" rel="noopener noreferrer">Nanda Kishore D — LinkedIn</a>
+        </div>
+
+        <div class="footer-bottom" style="color: var(--text-muted)">
+          <p>© 2025 One Percent. All rights reserved.</p>
+          <p>Built for the 1% who refuse to be average.</p>
+        </div>
+      </div>
+    </footer>
+
+    <button class="btn btn-primary back-to-top" id="backToTop" aria-label="Back to top">↑ Top</button>
+
+    <script>
+      (function () {
+        emailjs.init({ publicKey: "YOUR_EMAILJS_PUBLIC_KEY" });
+      })();
+
+      const curriculumData = [
+        {
+          title: "Stage 1 — SAP CI/CPI Fundamentals",
+          topics:
+            "Cloud Computing & SAP BTP Architecture · Security, Entitlements & Identity · Integration Fundamentals (Request-Reply vs Async) · Full iFlow Canvas — Every Component Explained · CPI Runtime & Worker Node Architecture"
+        },
+        {
+          title: "Stage 2 — In-Depth Groovy Scripting + Templates",
+          topics:
+            "Groovy Syntax for CPI · Reading & Modifying Message Payloads · Advanced Groovy Patterns (Dynamic Routing, Attachment Handling) · Error-Safe Scripting (try-catch) · Production Template Library"
+        },
+        {
+          title: "Stage 3 — In-Depth Message Mapping + Patterns",
+          topics:
+            "Mapping Engine Execution Model · Custom Functions in Java · Multi-Source & Multi-Target Mapping · Value Mapping & Dynamic Lookups · Canonical Data Model Architecture"
+        },
+        {
+          title: "Stage 4 — Intermediate & Advanced CPI Topics",
+          topics:
+            "Splitter & Aggregator Patterns · JMS Async Queues & Retry · Data Store Advanced Usage · Hybrid Deployment & Edge Integration Cell · AI-Augmented iFlow Scenarios"
+        },
+        {
+          title: "Stage 5 — Adapters Pack",
+          topics:
+            "SOAP, HTTP/HTTPS, SFTP, IDoc, RFC, OData V2/V4 · AS2/AS4 B2B Adapters · JMS, ProcessDirect, Ariba, SuccessFactors · Mail Adapter · Custom Adapter Development"
+        },
+        {
+          title: "Stage 6 — Security, Operations & Monitoring",
+          topics:
+            "TLS & Certificate Lifecycle · OAuth 2.0, Client Certificate, Principal Propagation · WS-Security & PGP Encryption · Message Monitor & Payload Trace · Production Debugging Patterns"
+        },
+        {
+          title: "Stage 7 — SAP API Management",
+          topics:
+            "API Proxy, Provider, Product & Application Model · Security Policies (OAuth, JWT, API Key) · Rate Limit, Quota & Spike Arrest · Exposing iFlows as Managed APIs · Developer Portal Setup · API Analytics"
+        },
+        {
+          title: "Stage 8 — SAP Advanced Event Mesh",
+          topics:
+            "Event-Driven Architecture Fundamentals · AEM Broker Setup & Topic Design · Solace Integration & Replay · Connecting CPI to AEM · S/4HANA Business Events End-to-End · Idempotency & Dead-Letter Queues"
+        },
+        {
+          title: "Stage 9 — Advanced Design Thinking",
+          topics:
+            "Reusable Integration Patterns (Routing Slip, Scatter-Gather, Pub-Sub) · Writing FRDs & SDDs · Knowledge Transfer & Runbooks · Client Communication & Architecture Presentation · Capstone Scenario Walkthroughs"
+        }
+      ];
+
+      const accordion = document.getElementById("curriculumAccordion");
+      curriculumData.forEach((item, index) => {
+        const row = document.createElement("article");
+        row.className = "acc-item animate";
+        row.dataset.delay = String(index * 80);
+        row.innerHTML = `
+          <button class="acc-btn" aria-expanded="false">
+            <span class="stage-number">Stage ${index + 1}</span>
+            <span class="acc-title">${item.title.replace("Stage " + (index + 1) + " — ", "")}</span>
+            <span class="acc-arrow">⌄</span>
+          </button>
+          <div class="acc-content">
+            <div class="acc-content-inner">${item.topics.split(" · ").map((topic) => `• ${topic}`).join("<br />")}</div>
+          </div>
+        `;
+        accordion.appendChild(row);
+      });
+
+      const accItems = document.querySelectorAll(".acc-item");
+      accItems.forEach((item) => {
+        const btn = item.querySelector(".acc-btn");
+        const content = item.querySelector(".acc-content");
+
+        btn.addEventListener("click", () => {
+          const isOpen = item.classList.contains("open");
+
+          accItems.forEach((el) => {
+            el.classList.remove("open");
+            el.querySelector(".acc-btn").setAttribute("aria-expanded", "false");
+            el.querySelector(".acc-content").style.maxHeight = "0px";
+          });
+
+          if (!isOpen) {
+            item.classList.add("open");
+            btn.setAttribute("aria-expanded", "true");
+            content.style.maxHeight = content.scrollHeight + "px";
+          }
+        });
+      });
+
+      const topNav = document.getElementById("topNav");
+      const mobileToggle = document.getElementById("mobileToggle");
+      const mobileDrawer = document.getElementById("mobileDrawer");
+      const mobileLinks = document.querySelectorAll(".mobile-link");
+
+      mobileToggle.addEventListener("click", () => {
+        const open = mobileDrawer.classList.toggle("open");
+        mobileToggle.setAttribute("aria-expanded", String(open));
+        mobileToggle.textContent = open ? "✕" : "☰";
+      });
+
+      mobileLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileDrawer.classList.remove("open");
+          mobileToggle.setAttribute("aria-expanded", "false");
+          mobileToggle.textContent = "☰";
+        });
+      });
+
+      const backToTop = document.getElementById("backToTop");
+      window.addEventListener("scroll", () => {
+        topNav.classList.toggle("scrolled", window.scrollY > 20);
+        backToTop.classList.toggle("show", window.scrollY > 400);
+      });
+
+      backToTop.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      const sections = ["about", "curriculum", "instructors", "pricing", "contact"].map((id) =>
+        document.getElementById(id)
+      );
+      const navLinks = document.querySelectorAll(".nav-link");
+
+      const highlightCurrentNav = () => {
+        const y = window.scrollY + 120;
+        let current = "about";
+
+        sections.forEach((section) => {
+          if (section && y >= section.offsetTop) current = section.id;
+        });
+
+        navLinks.forEach((link) => {
+          link.classList.toggle("active", link.getAttribute("href") === `#${current}`);
+        });
+      };
+
+      window.addEventListener("scroll", highlightCurrentNav);
+      highlightCurrentNav();
+
+      const animated = document.querySelectorAll(".animate");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const delay = Number(entry.target.dataset.delay || 0);
+              entry.target.style.transitionDelay = `${delay}ms`;
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+
+      animated.forEach((el) => observer.observe(el));
+
+      const payNowBtn = document.getElementById("payNowBtn");
+      const paymentStatus = document.getElementById("paymentStatus");
+
+      payNowBtn.addEventListener("click", () => {
+        paymentStatus.className = "form-status";
+        paymentStatus.textContent = "";
+
+        const options = {
+          key: "YOUR_RAZORPAY_KEY_ID",
+          amount: 3499900,
+          currency: "INR",
+          name: "1% — One Percent",
+          description: "SAP Integration Suite Cohort",
+          theme: { color: "#D4A017" },
+          handler: function () {
+            paymentStatus.className = "form-status success";
+            paymentStatus.textContent = "🎉 Payment Successful! We'll reach out to you within 24 hours at your email.";
+          }
+        };
+
+        try {
+          const rzpay = new Razorpay(options);
+          rzpay.on("payment.failed", function () {
+            paymentStatus.className = "form-status error";
+            paymentStatus.textContent = "Payment failed. Please try again or contact support.";
+          });
+          rzpay.open();
+        } catch (error) {
+          paymentStatus.className = "form-status error";
+          paymentStatus.textContent = "Payment gateway failed to load. Please check your Razorpay key and internet connection.";
+        }
+      });
+
+      const enquiryForm = document.getElementById("enquiryForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const submitSpinner = document.getElementById("submitSpinner");
+      const formStatus = document.getElementById("formStatus");
+
+      const fields = [
+        { id: "fullName", required: true, label: "Full Name" },
+        { id: "emailAddress", required: true, label: "Email Address" },
+        { id: "phoneNumber", required: false, label: "Phone Number" },
+        { id: "background", required: true, label: "Background" },
+        { id: "message", required: false, label: "Message" }
+      ];
+
+      function setError(id, text) {
+        const el = document.getElementById(`error-${id}`);
+        if (el) el.textContent = text;
+      }
+
+      function clearErrors() {
+        fields.forEach((f) => setError(f.id, ""));
+        formStatus.textContent = "";
+        formStatus.className = "form-status";
+      }
+
+      function validateForm() {
+        let valid = true;
+        clearErrors();
+
+        const name = document.getElementById("fullName").value.trim();
+        const email = document.getElementById("emailAddress").value.trim();
+        const background = document.getElementById("background").value.trim();
+
+        if (!name) {
+          valid = false;
+          setError("fullName", "Full Name is required.");
+        }
+
+        if (!email) {
+          valid = false;
+          setError("emailAddress", "Email Address is required.");
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          valid = false;
+          setError("emailAddress", "Please enter a valid email address.");
+        }
+
+        if (!background) {
+          valid = false;
+          setError("background", "Please select your background.");
+        }
+
+        return valid;
+      }
+
+      enquiryForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!validateForm()) return;
+
+        const payload = {
+          full_name: document.getElementById("fullName").value.trim(),
+          email: document.getElementById("emailAddress").value.trim(),
+          phone: document.getElementById("phoneNumber").value.trim(),
+          background: document.getElementById("background").value,
+          message: document.getElementById("message").value.trim(),
+          to_email: "pavankolla75@gmail.com"
+        };
+
+        submitBtn.disabled = true;
+        submitSpinner.style.display = "inline-block";
+
+        try {
+          await emailjs.send(
+            "YOUR_EMAILJS_SERVICE_ID",
+            "YOUR_EMAILJS_TEMPLATE_ID",
+            payload,
+            { publicKey: "YOUR_EMAILJS_PUBLIC_KEY" }
+          );
+
+          formStatus.className = "form-status success";
+          formStatus.textContent = "✓ Message sent! We’ll reply within 24 hours.";
+          enquiryForm.reset();
+        } catch (error) {
+          formStatus.className = "form-status error";
+          formStatus.textContent = "Unable to send message right now. Please try again or email pavankolla75@gmail.com.";
+        } finally {
+          submitBtn.disabled = false;
+          submitSpinner.style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>
