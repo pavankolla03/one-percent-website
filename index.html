@@ -1,11 +1,39 @@
 <!--
-  DEPLOYMENT GUIDE — 1% SAP CPI Training Website
-  ================================================
-  BEFORE DEPLOYING — Replace these placeholders:
-  1. Razorpay: Replace "YOUR_RAZORPAY_KEY_ID" with your actual key from razorpay.com
-  2. EmailJS: Replace YOUR_EMAILJS_SERVICE_ID, YOUR_EMAILJS_TEMPLATE_ID, YOUR_EMAILJS_PUBLIC_KEY
-     — Sign up free at emailjs.com, create a Gmail service, create a template
-  3. WhatsApp link: Replace the # with your WhatsApp group invite link
+  DEPLOYMENT GUIDE — 1% SAP CPI Training Website (Full Version)
+  ==============================================================
+  
+  BEFORE GOING LIVE — Update these 7 placeholders:
+  
+  1. NEXT_BATCH_DATE (line ~50 in script):
+    Change: new Date('2025-08-04')
+    To: your actual next batch start date
+  
+  2. SEATS_REMAINING (line ~51 in script):
+    Change the number 18 to your actual remaining seats
+  
+  3. Razorpay Key (search: YOUR_RAZORPAY_KEY_ID):
+    Replace with your live key from razorpay.com dashboard
+  
+  4. EmailJS credentials (search: YOUR_EMAILJS):
+    Replace SERVICE_ID, TEMPLATE_ID, PUBLIC_KEY
+    from emailjs.com dashboard
+  
+  5. WhatsApp number (search: 91XXXXXXXXXX):
+    Replace with your actual WhatsApp number (country code + number)
+    Example: 919876543210 for +91 98765 43210
+  
+  6. YouTube Video ID (search: YOUR_VIDEO_ID):
+    Replace with your actual YouTube video ID
+    (the part after ?v= in any YouTube URL)
+  
+  7. Testimonials (search: "Rahul Sharma"):
+    Replace the 3 placeholder testimonials with real student quotes
+  
+  FREE HOSTING — NETLIFY (Recommended):
+  1. Go to netlify.com → Sign up free
+  2. Drag and drop index.html onto the dashboard
+  3. Live in 30 seconds. Share the URL.
+  4. Optional: connect a custom domain (free SSL included)
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -347,6 +375,163 @@
         font-size: 0.95rem;
       }
 
+      .live-viewers {
+        margin: 14px 0 4px;
+        color: var(--text-muted);
+        font-size: 13px;
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .dot-live {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #22c55e;
+        animation: liveDotPulse 2s ease-in-out infinite;
+      }
+
+      .countdown-wrap {
+        margin-top: 20px;
+      }
+
+      .countdown-row {
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: nowrap;
+      }
+
+      .countdown-box {
+        background: #111111;
+        border: 1px solid var(--border);
+        min-width: 86px;
+        padding: 10px 8px;
+        text-align: center;
+      }
+
+      .countdown-number {
+        font-family: "Playfair Display", serif;
+        color: var(--accent-gold);
+        font-size: 36px;
+        line-height: 1;
+      }
+
+      .countdown-label {
+        color: var(--text-muted);
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-top: 6px;
+      }
+
+      .countdown-sep {
+        align-self: center;
+        color: var(--accent-gold);
+        font-size: 20px;
+        line-height: 1;
+      }
+
+      .seats-left {
+        margin-top: 10px;
+        color: var(--accent-gold);
+      }
+
+      .countdown-live-msg {
+        margin-top: 14px;
+        color: var(--accent-gold);
+      }
+
+      .companies-strip {
+        background: #0a0a0a;
+        border-top: 1px solid #2a2a2a;
+        border-bottom: 1px solid #2a2a2a;
+        padding: 12px 0;
+      }
+
+      .companies-wrap {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .companies-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        color: #777777;
+        white-space: nowrap;
+      }
+
+      .marquee {
+        overflow: hidden;
+        flex: 1;
+      }
+
+      .marquee-track {
+        display: flex;
+        width: max-content;
+        animation: marquee 28s linear infinite;
+      }
+
+      .marquee:hover .marquee-track {
+        animation-play-state: paused;
+      }
+
+      .marquee-list {
+        color: #666666;
+        font-size: 14px;
+        white-space: nowrap;
+        padding-right: 60px;
+      }
+
+      .video-shell {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .video-embed {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        background: #0d0d0d;
+      }
+
+      .video-placeholder {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: var(--accent-gold);
+        font-family: "Playfair Display", serif;
+        font-size: clamp(18px, 2.5vw, 28px);
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .video-embed iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+      }
+
+      .trust-tags {
+        margin-top: 14px;
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        color: var(--text-muted);
+        font-size: 14px;
+      }
+
       .scroll-indicator {
         position: absolute;
         bottom: 18px;
@@ -399,6 +584,21 @@
 
       @keyframes spin {
         to { transform: rotate(360deg); }
+      }
+
+      @keyframes marquee {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+      }
+
+      @keyframes waPulse {
+        0% { transform: scale(1); opacity: 0.7; }
+        100% { transform: scale(1.5); opacity: 0; }
+      }
+
+      @keyframes liveDotPulse {
+        0%, 100% { transform: scale(1); opacity: 0.85; }
+        50% { transform: scale(1.18); opacity: 1; }
       }
 
       .cols-2 {
@@ -519,6 +719,267 @@
         font-family: "Playfair Display", serif;
         margin-bottom: 8px;
       }
+
+      .outcomes-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .outcome-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        padding: 18px;
+      }
+
+      .outcome-avatar {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: var(--accent-gold);
+        color: #0a0a0a;
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .outcome-role {
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+
+      .role-old { color: var(--text-muted); }
+      .role-arrow { color: var(--accent-gold); margin: 0 6px; }
+      .role-new { color: var(--text-primary); font-weight: 700; }
+
+      .company-pill {
+        display: inline-block;
+        border: 1px solid var(--border);
+        color: #cfcfcf;
+        font-size: 12px;
+        padding: 2px 8px;
+        margin-bottom: 10px;
+      }
+
+      .outcome-quote {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        margin-bottom: 10px;
+      }
+
+      .stars {
+        color: var(--accent-gold);
+        letter-spacing: 0.08em;
+      }
+
+      .results-note,
+      .cert-label,
+      .cert-note {
+        color: var(--text-muted);
+        text-align: center;
+      }
+
+      .cert-label {
+        margin-top: 30px;
+        margin-bottom: 10px;
+      }
+
+      .cert-wrap {
+        max-width: 640px;
+        margin: 0 auto;
+        aspect-ratio: 1.4 / 1;
+        border: 2px solid var(--accent-gold);
+        outline: 1px solid var(--accent-gold);
+        outline-offset: -10px;
+        background: #0d0d0d;
+        padding: 34px 26px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: center;
+      }
+
+      .cert-logo { font-family: "Playfair Display", serif; color: var(--accent-gold); font-size: clamp(34px, 5vw, 48px); line-height: 1; }
+      .cert-brand { color: var(--text-muted); letter-spacing: 0.16em; font-size: 12px; }
+      .cert-line { border: none; border-top: 1px solid var(--accent-gold); margin: 10px auto; width: 70%; }
+      .cert-title { font-family: "Playfair Display", serif; font-style: italic; font-size: clamp(18px, 3vw, 22px); }
+      .cert-muted { color: var(--text-muted); font-size: 14px; }
+      .cert-name { color: var(--accent-gold); font-family: "Playfair Display", serif; font-size: clamp(22px, 4vw, 28px); }
+      .cert-program { font-size: 16px; font-weight: 700; }
+      .cert-foot { color: var(--text-muted); font-size: 12px; }
+
+      .cert-signatures {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 8px;
+      }
+
+      .cert-signature {
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .cert-signature::before {
+        content: "";
+        display: block;
+        width: 56px;
+        margin: 0 auto 6px;
+        border-top: 1px solid var(--accent-gold);
+      }
+
+      .timeline {
+        position: relative;
+        display: grid;
+        gap: 18px;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 10px;
+        bottom: 10px;
+        width: 1px;
+        background: var(--accent-gold);
+        transform: translateX(-50%);
+      }
+
+      .timeline-item {
+        display: grid;
+        grid-template-columns: 1fr 80px 1fr;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .timeline-item:nth-child(even) .timeline-content { grid-column: 3; }
+      .timeline-item:nth-child(even) .timeline-spacer { grid-column: 1; }
+      .timeline-item:nth-child(odd) .timeline-content { grid-column: 1; text-align: right; }
+      .timeline-item:nth-child(odd) .timeline-spacer { grid-column: 3; }
+
+      .timeline-dot {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid var(--accent-gold);
+        background: #111111;
+        color: var(--accent-gold);
+        display: grid;
+        place-items: center;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 13px;
+        margin: 0 auto;
+        z-index: 1;
+      }
+
+      .timeline-content { background: var(--card-bg); border: 1px solid var(--border); padding: 14px; }
+      .timeline-title { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+      .timeline-desc { font-size: 14px; color: var(--text-muted); }
+      .workshop-tag { display: inline-block; margin-top: 7px; border: 1px solid var(--accent-gold); color: var(--accent-gold); font-size: 11px; padding: 2px 8px; }
+
+      .faq-list { border-top: 1px solid #2a2a2a; }
+      .faq-item { border-bottom: 1px solid #2a2a2a; }
+
+      .faq-question {
+        width: 100%;
+        border: none;
+        background: transparent;
+        color: #ffffff;
+        font-size: 16px;
+        text-align: left;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 56px;
+        cursor: pointer;
+        padding: 14px 0;
+      }
+
+      .faq-icon { color: var(--accent-gold); transition: transform 0.25s ease; font-size: 20px; }
+      .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+      .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+        color: #888888;
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .faq-answer-inner { padding: 0 0 16px; }
+
+      .emi-block {
+        margin-top: 10px;
+        border-top: 1px solid #2a2a2a;
+        padding-top: 10px;
+        color: var(--text-muted);
+        font-size: 13px;
+      }
+
+      .emi-block a {
+        color: var(--accent-gold);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      .instructor-photo {
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--accent-gold);
+        margin-bottom: 12px;
+      }
+
+      .wa-float {
+        position: fixed;
+        left: 24px;
+        bottom: 24px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: #25d366;
+        color: #fff;
+        display: grid;
+        place-items: center;
+        z-index: 320;
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
+        transition: transform 0.2s ease;
+      }
+
+      .wa-float::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 1px solid rgba(37, 211, 102, 0.6);
+        animation: waPulse 2s ease-out infinite;
+      }
+
+      .wa-float:hover { transform: scale(1.1); }
+
+      .wa-tooltip {
+        position: absolute;
+        left: 68px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #111111;
+        border: 1px solid #2a2a2a;
+        color: #f5f5f0;
+        font-size: 12px;
+        padding: 6px 8px;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+
+      .wa-float:hover .wa-tooltip { opacity: 1; }
+
+      .mobile-sticky-enroll { display: none; }
 
       .accordion {
         border: 1px solid var(--border);
@@ -838,6 +1299,10 @@
       }
 
       @media (max-width: 768px) {
+        body {
+          padding-bottom: 80px;
+        }
+
         .nav-links,
         .desktop-cta {
           display: none;
@@ -879,11 +1344,103 @@
         .cols-2,
         .feature-grid,
         .metrics,
+        .outcomes-grid,
         .audience-grid,
         .instructor-grid,
         .highlight-grid,
-        .form-grid {
+        .form-grid,
+        .cert-signatures {
           grid-template-columns: 1fr;
+        }
+
+        .timeline::before {
+          left: 20px;
+          transform: none;
+        }
+
+        .timeline-item {
+          grid-template-columns: 40px 1fr;
+          gap: 12px;
+        }
+
+        .timeline-item .timeline-content,
+        .timeline-item .timeline-spacer {
+          grid-column: 2 !important;
+          text-align: left !important;
+        }
+
+        .timeline-dot {
+          margin: 0;
+          grid-column: 1;
+        }
+
+        .countdown-box {
+          min-width: 68px;
+          padding: 8px 6px;
+        }
+
+        .countdown-number {
+          font-size: 24px;
+        }
+
+        .mobile-sticky-enroll {
+          position: fixed;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 64px;
+          background: #0a0a0a;
+          border-top: 1px solid #d4a017;
+          display: flex;
+          z-index: 330;
+        }
+
+        .mobile-sticky-left {
+          flex: 1;
+          padding: 8px 12px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .mobile-price {
+          font-family: "Playfair Display", serif;
+          color: var(--accent-gold);
+          font-size: 18px;
+          line-height: 1;
+        }
+
+        .mobile-next {
+          color: #cfcfcf;
+          font-size: 11px;
+        }
+
+        .mobile-sticky-btn {
+          border: none;
+          border-left: 1px solid #2a2a2a;
+          min-width: 42%;
+          height: 100%;
+          background: var(--accent-gold);
+          color: #0a0a0a;
+          font-weight: 700;
+          cursor: pointer;
+        }
+
+        .mobile-sticky-close {
+          position: absolute;
+          top: 4px;
+          right: 6px;
+          border: none;
+          background: transparent;
+          color: #cfcfcf;
+          font-size: 14px;
+          cursor: pointer;
+          width: 20px;
+          height: 20px;
+        }
+
+        .wa-float {
+          bottom: 88px;
         }
 
         .hero-title {
@@ -916,6 +1473,12 @@
           gap: 10px;
           font-size: 0.9rem;
         }
+
+        .companies-wrap {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 6px;
+        }
       }
     </style>
   </head>
@@ -930,14 +1493,15 @@
         <nav aria-label="Main navigation">
           <ul class="nav-links">
             <li><a class="nav-link" href="#about">About</a></li>
-            <li><a class="nav-link" href="#curriculum">Curriculum</a></li>
-            <li><a class="nav-link" href="#instructors">Instructors</a></li>
+            <li><a class="nav-link" href="#curriculum">Program</a></li>
+            <li><a class="nav-link" href="#outcomes">Results</a></li>
+            <li><a class="nav-link" href="#faq">FAQ</a></li>
             <li><a class="nav-link" href="#pricing">Pricing</a></li>
             <li><a class="nav-link" href="#contact">Contact</a></li>
           </ul>
         </nav>
 
-        <a class="btn btn-primary desktop-cta" href="#pricing">Enroll Now</a>
+        <a class="btn btn-primary desktop-cta" href="#pricing" id="heroEnrollBtnDesktop">Enroll Now</a>
 
         <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu" aria-expanded="false">
           ☰
@@ -947,11 +1511,12 @@
       <div class="mobile-drawer" id="mobileDrawer">
         <div class="mobile-drawer-inner">
           <a class="mobile-link" href="#about">About</a>
-          <a class="mobile-link" href="#curriculum">Curriculum</a>
-          <a class="mobile-link" href="#instructors">Instructors</a>
+          <a class="mobile-link" href="#curriculum">Program</a>
+          <a class="mobile-link" href="#outcomes">Results</a>
+          <a class="mobile-link" href="#faq">FAQ</a>
           <a class="mobile-link" href="#pricing">Pricing</a>
           <a class="mobile-link" href="#contact">Contact</a>
-          <a class="btn btn-primary" href="#pricing">Enroll Now</a>
+          <a class="btn btn-primary" href="#pricing" id="heroEnrollBtnMobile">Enroll Now</a>
         </div>
       </div>
     </header>
@@ -964,6 +1529,11 @@
             <p class="tagline">Train like the top 1%. Think like an enterprise engineer.</p>
           </div>
 
+          <p class="live-viewers animate" id="liveViewers" data-delay="60">
+            <span class="dot-live" aria-hidden="true"></span>
+            <span><strong id="viewerCount">24</strong> people are viewing this page</span>
+          </p>
+
           <h1 class="hero-title animate" data-delay="100">
             The SAP Integration Engineers<br />
             <span class="gold">Nobody Talks About.</span>
@@ -974,8 +1544,33 @@
           </p>
 
           <div class="hero-actions animate" data-delay="300">
-            <a href="#pricing" class="btn btn-primary">Enroll Now — ₹34,999</a>
-            <a href="#curriculum" class="btn btn-outline">View Curriculum</a>
+            <a href="#pricing" class="btn btn-primary" id="heroEnrollBtn">Enroll Now — ₹34,999</a>
+            <a href="#curriculum" class="btn btn-outline">View Program</a>
+          </div>
+
+          <div class="countdown-wrap animate" data-delay="350" id="countdownWrap">
+            <div class="countdown-row" id="countdownRow">
+              <div class="countdown-box">
+                <div class="countdown-number" id="countDays">00</div>
+                <div class="countdown-label">Days</div>
+              </div>
+              <div class="countdown-sep">:</div>
+              <div class="countdown-box">
+                <div class="countdown-number" id="countHours">00</div>
+                <div class="countdown-label">Hours</div>
+              </div>
+              <div class="countdown-sep">:</div>
+              <div class="countdown-box">
+                <div class="countdown-number" id="countMins">00</div>
+                <div class="countdown-label">Minutes</div>
+              </div>
+              <div class="countdown-sep">:</div>
+              <div class="countdown-box">
+                <div class="countdown-number" id="countSecs">00</div>
+                <div class="countdown-label">Seconds</div>
+              </div>
+            </div>
+            <p class="seats-left" id="seatsText">Only 18 seats remaining in this cohort.</p>
           </div>
 
           <ul class="trust-badges animate" data-delay="400">
@@ -986,6 +1581,18 @@
         </div>
 
         <div class="scroll-indicator" aria-hidden="true">⌄</div>
+      </section>
+
+      <section class="companies-strip">
+        <div class="container companies-wrap">
+          <p class="companies-label">Our students work at</p>
+          <div class="marquee" aria-label="Companies where students work">
+            <div class="marquee-track">
+              <div class="marquee-list">TCS · Infosys · Wipro · Accenture · Capgemini · IBM · Deloitte · SAP SE · HCL · Cognizant · Tech Mahindra · LTIMindtree · NTT Data · Atos · DXC Technology</div>
+              <div class="marquee-list" aria-hidden="true">TCS · Infosys · Wipro · Accenture · Capgemini · IBM · Deloitte · SAP SE · HCL · Cognizant · Tech Mahindra · LTIMindtree · NTT Data · Atos · DXC Technology</div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <hr class="divider" />
@@ -1018,6 +1625,32 @@
           <blockquote class="animate" data-delay="300">
             This gap is why developers "know" CPI but don't feel ready.
           </blockquote>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="section" id="demo">
+        <div class="container">
+          <h2 class="animate">See What a Real Session Looks Like</h2>
+          <p class="section-subtitle animate" data-delay="80">No sales pitch. Just an actual 10-minute clip from a live class.</p>
+          <div class="video-shell animate" data-delay="140">
+            <div class="video-embed">
+              <div class="video-placeholder">▶ Watch Free Preview</div>
+              <iframe
+                src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+                title="1% Demo Session"
+                frameborder="0"
+                loading="lazy"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="trust-tags">
+              <span><span class="check">✓</span>No signup required</span>
+              <span><span class="check">✓</span>Real live session</span>
+              <span><span class="check">✓</span>10 minutes</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1097,6 +1730,63 @@
 
       <hr class="divider" />
 
+      <section class="section" id="outcomes">
+        <div class="container">
+          <h2 class="animate">Real People. Real Outcomes.</h2>
+          <p class="section-subtitle animate" data-delay="80">What happens when you close the gap.</p>
+
+          <div class="outcomes-grid">
+            <article class="outcome-card animate" data-delay="100">
+              <div class="outcome-avatar">RS</div>
+              <p class="outcome-role"><span class="role-old">SAP Basis Admin</span><span class="role-arrow">→</span><span class="role-new">CPI Integration Consultant</span></p>
+              <span class="company-pill">Infosys</span>
+              <p class="outcome-quote">"I had tried 3 other CPI courses. None of them prepared me for real projects. This one did — in 8 weeks."</p>
+              <p class="stars">★★★★★</p>
+            </article>
+            <article class="outcome-card animate" data-delay="200">
+              <div class="outcome-avatar">PN</div>
+              <p class="outcome-role"><span class="role-old">Java Developer</span><span class="role-arrow">→</span><span class="role-new">SAP Integration Engineer</span></p>
+              <span class="company-pill">TCS</span>
+              <p class="outcome-quote">"The debugging sessions alone were worth the entire fee. I went from clueless to confident in production environments."</p>
+              <p class="stars">★★★★★</p>
+            </article>
+            <article class="outcome-card animate" data-delay="300">
+              <div class="outcome-avatar">AV</div>
+              <p class="outcome-role"><span class="role-old">SAP PI/PO Consultant</span><span class="role-arrow">→</span><span class="role-new">Cloud Integration Architect</span></p>
+              <span class="company-pill">Accenture</span>
+              <p class="outcome-quote">"The FRD/SDD training and mock interviews helped me crack a senior role. No other program covers this."</p>
+              <p class="stars">★★★★★</p>
+            </article>
+          </div>
+
+          <p class="results-note animate" data-delay="340">Results shown are from real program participants. Individual outcomes vary.</p>
+
+          <p class="cert-label animate" data-delay="360">Certificate of Completion</p>
+          <div class="cert-wrap animate" data-delay="420">
+            <div>
+              <div class="cert-logo">1%</div>
+              <p class="cert-brand">ONE PERCENT</p>
+              <hr class="cert-line" />
+              <p class="cert-title">Certificate of Completion</p>
+              <p class="cert-muted">This certifies that</p>
+              <p class="cert-name">[Your Name]</p>
+              <p class="cert-muted">has successfully completed the</p>
+              <p class="cert-program">SAP Integration Suite — Enterprise Program</p>
+              <hr class="cert-line" />
+            </div>
+            <div class="cert-signatures">
+              <div class="cert-signature">Pavan Kolla<br />Instructor</div>
+              <div class="cert-signature">Gunashekar Ch<br />Instructor</div>
+              <div class="cert-signature">Nanda Kishore D<br />Instructor</div>
+            </div>
+            <p class="cert-foot">1% — One Percent · 2025</p>
+          </div>
+          <p class="cert-note animate" data-delay="500">Awarded upon completing all projects and capstone deliverables.</p>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
       <section class="section" id="curriculum">
         <div class="container">
           <h2 class="animate">The 9-Stage Curriculum</h2>
@@ -1114,6 +1804,90 @@
             <article class="card animate" data-delay="200">
               <h3>2 Capstone Projects</h3>
               <p>Full end-to-end real enterprise builds.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="section" id="timeline">
+        <div class="container">
+          <h2 class="animate">Your 8-Week Journey</h2>
+          <p class="section-subtitle animate" data-delay="80">One milestone every week. One project every Saturday.</p>
+
+          <div class="timeline">
+            <article class="timeline-item animate" data-delay="60">
+              <div class="timeline-content">
+                <h3 class="timeline-title">Foundation Week</h3>
+                <p class="timeline-desc">CPI Architecture, BTP setup, iFlow canvas deep-dive.</p>
+                <span class="workshop-tag">Saturday Workshop: First iFlow end-to-end</span>
+              </div>
+              <div class="timeline-dot">W1</div>
+              <div class="timeline-spacer"></div>
+            </article>
+            <article class="timeline-item animate" data-delay="110">
+              <div class="timeline-spacer"></div>
+              <div class="timeline-dot">W2</div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Scripting Week</h3>
+                <p class="timeline-desc">Groovy from scratch to advanced patterns.</p>
+                <span class="workshop-tag">Saturday Workshop: Build production Groovy template library</span>
+              </div>
+            </article>
+            <article class="timeline-item animate" data-delay="160">
+              <div class="timeline-content">
+                <h3 class="timeline-title">Mapping Week</h3>
+                <p class="timeline-desc">Message mapping, custom functions, value mapping.</p>
+                <span class="workshop-tag">Saturday Workshop: Complex mapping scenario project</span>
+              </div>
+              <div class="timeline-dot">W3</div>
+              <div class="timeline-spacer"></div>
+            </article>
+            <article class="timeline-item animate" data-delay="210">
+              <div class="timeline-spacer"></div>
+              <div class="timeline-dot">W4</div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Advanced CPI</h3>
+                <p class="timeline-desc">Async patterns, JMS, Data Store, error handling.</p>
+                <span class="workshop-tag">Saturday Workshop: Async integration flow project</span>
+              </div>
+            </article>
+            <article class="timeline-item animate" data-delay="260">
+              <div class="timeline-content">
+                <h3 class="timeline-title">Adapters Week</h3>
+                <p class="timeline-desc">All major adapters: SOAP, IDoc, RFC, OData, SFTP.</p>
+                <span class="workshop-tag">Saturday Workshop: Multi-adapter integration project</span>
+              </div>
+              <div class="timeline-dot">W5</div>
+              <div class="timeline-spacer"></div>
+            </article>
+            <article class="timeline-item animate" data-delay="310">
+              <div class="timeline-spacer"></div>
+              <div class="timeline-dot">W6</div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Security & Ops</h3>
+                <p class="timeline-desc">TLS, OAuth, monitoring, production debugging.</p>
+                <span class="workshop-tag">Saturday Workshop: Secure integration with monitoring project</span>
+              </div>
+            </article>
+            <article class="timeline-item animate" data-delay="360">
+              <div class="timeline-content">
+                <h3 class="timeline-title">API Management + AEM</h3>
+                <p class="timeline-desc">API proxy, policies, event mesh, S/4HANA events.</p>
+                <span class="workshop-tag">Saturday Workshop: API + event-driven project</span>
+              </div>
+              <div class="timeline-dot">W7</div>
+              <div class="timeline-spacer"></div>
+            </article>
+            <article class="timeline-item animate" data-delay="410">
+              <div class="timeline-spacer"></div>
+              <div class="timeline-dot">W8</div>
+              <div class="timeline-content">
+                <h3 class="timeline-title">Capstone + Career</h3>
+                <p class="timeline-desc">Design thinking, FRDs/SDDs, mock interviews, capstone build.</p>
+                <span class="workshop-tag">Saturday Workshop: Final capstone presentation</span>
+              </div>
             </article>
           </div>
         </div>
@@ -1143,7 +1917,7 @@
 
           <div class="instructor-grid">
             <article class="card animate">
-              <div class="avatar" aria-hidden="true">NK</div>
+              <img class="instructor-photo" src="assets/instructors/nanda.png" alt="Nanda Kishore D" loading="lazy" />
               <h3>Nanda Kishore D</h3>
               <p class="section-subtitle" style="margin-bottom:8px">SAP CPI Consultant</p>
               <div class="tags">
@@ -1156,7 +1930,7 @@
             </article>
 
             <article class="card animate" data-delay="100">
-              <div class="avatar" aria-hidden="true">GC</div>
+              <img class="instructor-photo" src="assets/instructors/gunashekar.png" alt="Gunashekar Ch" loading="lazy" />
               <h3>Gunashekar Ch</h3>
               <p class="section-subtitle" style="margin-bottom:8px">SAP Integration Specialist</p>
               <div class="tags">
@@ -1170,7 +1944,7 @@
             </article>
 
             <article class="card animate" data-delay="200">
-              <div class="avatar" aria-hidden="true">PK</div>
+              <img class="instructor-photo" src="assets/instructors/pavan.jpeg" alt="Pavan Kolla" loading="lazy" />
               <h3>Pavan Kolla</h3>
               <p class="section-subtitle" style="margin-bottom:8px">SAP CPI & Integration Architect</p>
               <div class="tags">
@@ -1214,8 +1988,33 @@
             <p style="margin-top:8px; color: var(--text-muted); font-size:0.92rem">
               Secure payment via Razorpay · UPI, Cards, Net Banking accepted
             </p>
+            <div class="emi-block">
+              <p>💳 EMI available — pay in easy installments</p>
+              <p>Contact us on <a href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%201%25%20SAP%20CPI%20cohort." target="_blank" rel="noopener noreferrer">WhatsApp</a> to set up an installment plan</p>
+            </div>
             <p id="paymentStatus" class="form-status" aria-live="polite"></p>
           </article>
+        </div>
+      </section>
+
+      <hr class="divider" />
+
+      <section class="section" id="faq">
+        <div class="container">
+          <h2 class="animate">Frequently Asked Questions</h2>
+          <p class="section-subtitle animate" data-delay="80">Everything you need to decide with confidence.</p>
+          <div class="faq-list" id="faqList">
+            <article class="faq-item animate" data-delay="100"><button class="faq-question" aria-expanded="false">Who is this program for?<span class="faq-icon">+</span></button><div class="faq-answer"><div class="faq-answer-inner">This program is designed for anyone who wants to build a serious career in SAP Integration Suite — from fresh graduates and IT professionals to SAP PI/PO consultants and functional consultants moving into the technical layer. No prior integration experience is required.</div></div></article>
+            <article class="faq-item animate" data-delay="120"><button class="faq-question" aria-expanded="false">Do I need prior SAP experience to join?<span class="faq-icon">+</span></button><div class="faq-answer"><div class="faq-answer-inner">No. Stage 1 is built from zero assumptions. If you have SAP background (ABAP, Basis, PI/PO, functional), that's an advantage — but it's not required. We've designed the program to work for complete beginners.</div></div></article>
+            <article class="faq-item animate" data-delay="140"><button class="faq-question" aria-expanded="false">Are the sessions live or recorded?<span class="faq-icon">+</span></button><div class="faq-answer"><div class="faq-answer-inner">All sessions are conducted live. Every live session is also recorded and made available to you, so you can re-watch any class as many times as you need. Recordings do not expire.</div></div></article>
+            <article class="faq-item animate" data-delay="160"><button class="faq-question" aria-expanded="false">What if I miss a live session?<span class="faq-icon">+</span></button><div class="faq-answer"><div class="faq-answer-inner">No problem. All sessions are recorded and shared with participants. You can catch up at your own pace. You can also ask your doubts in the community channel and get them addressed in the next session.</div></div></article>
+            <article class="faq-item animate" data-delay="180"><button class="faq-question" aria-expanded="false">Is EMI or installment payment available?<span class="faq-icon">+</span></button><div class="faq-answer"><div class="faq-answer-inner">Yes. We offer payment flexibility for genuine cases. Please reach out via the contact form or WhatsApp and we'll discuss the right option for you.</div></div></article>
+            <article class="faq-item animate" data-delay="200"><button class="faq-question" aria-expanded="false">What is the batch schedule? How many hours per week?<span class="faq-icon">+</span></button><div class="faq-answer"><div class="faq-answer-inner">The program runs over 8 weeks. Daily sessions are 2 focused hours (typically evenings, weekdays). Saturday sessions are 3-hour live workshops. Total commitment is roughly 13-15 hours per week including practice time.</div></div></article>
+            <article class="faq-item animate" data-delay="220"><button class="faq-question" aria-expanded="false">Will I get a certificate after completing the program?<span class="faq-icon">+</span></button><div class="faq-answer"><div class="faq-answer-inner">Yes. Participants who complete all milestone projects and the capstone projects receive a Certificate of Completion from 1% — One Percent, which you can add to your LinkedIn profile.</div></div></article>
+            <article class="faq-item animate" data-delay="240"><button class="faq-question" aria-expanded="false">What makes this different from YouTube tutorials or other CPI courses?<span class="faq-icon">+</span></button><div class="faq-answer"><div class="faq-answer-inner">YouTube tutorials teach features. This program trains you to think like an integration engineer — debugging, designing, documenting, and delivering real enterprise solutions. We also cover things 99% of courses skip: FRD/SDD writing, LinkedIn & resume building, mock interviews, and career strategy.</div></div></article>
+            <article class="faq-item animate" data-delay="260"><button class="faq-question" aria-expanded="false">Will this help me get a job?<span class="faq-icon">+</span></button><div class="faq-answer"><div class="faq-answer-inner">The program includes dedicated career positioning sessions: LinkedIn profile engineering, resume structure, interview preparation, and mock interviews. Many participants have used their capstone projects directly in interviews. We do not guarantee placement, but we give you everything needed to position yourself strongly.</div></div></article>
+            <article class="faq-item animate" data-delay="280"><button class="faq-question" aria-expanded="false">How do I enroll? What happens after payment?<span class="faq-icon">+</span></button><div class="faq-answer"><div class="faq-answer-inner">Click "Enroll Now", complete payment via Razorpay (UPI, cards, net banking all accepted). Within 24 hours, you'll receive a welcome email with batch details, community access, and your onboarding checklist. You can also reach us at pavankolla75@gmail.com or via WhatsApp for any pre-enrollment questions.</div></div></article>
+          </div>
         </div>
       </section>
 
@@ -1236,7 +2035,7 @@
               <p>For batch details, payment plans, or corporate training enquiries.</p>
               <p>
                 Or join our WhatsApp community:
-                <a href="#" aria-label="Join WhatsApp community">Join here</a>
+                <a href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%201%25%20SAP%20CPI%20cohort." target="_blank" rel="noopener noreferrer" aria-label="Join WhatsApp community">Join here</a>
               </p>
             </aside>
 
@@ -1300,8 +2099,9 @@
           </div>
           <nav class="footer-links" aria-label="Footer navigation">
             <a href="#about">About</a>
-            <a href="#curriculum">Curriculum</a>
-            <a href="#instructors">Instructors</a>
+            <a href="#curriculum">Program</a>
+            <a href="#outcomes">Results</a>
+            <a href="#faq">FAQ</a>
             <a href="#pricing">Pricing</a>
             <a href="#contact">Contact</a>
           </nav>
@@ -1322,10 +2122,30 @@
 
     <button class="btn btn-primary back-to-top" id="backToTop" aria-label="Back to top">↑ Top</button>
 
+    <a class="wa-float" href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%201%25%20SAP%20CPI%20cohort." target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp">
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+        <path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L0 24l6.5-1.8a11.8 11.8 0 0 0 5.6 1.4h.1A11.8 11.8 0 0 0 24 11.8c0-3.2-1.2-6.2-3.5-8.3Zm-8.3 18.1h-.1c-1.9 0-3.8-.5-5.4-1.4l-.4-.2-3.8 1 1-3.7-.2-.4a9.8 9.8 0 1 1 8.9 4.7Zm5.4-7.4c-.3-.2-1.8-.9-2-.9-.3-.1-.5-.1-.7.2-.2.3-.8.9-1 1.1-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-1-1.6-2.1-1.8-2.4-.2-.3 0-.5.1-.7.1-.1.3-.3.4-.5l.3-.4c.1-.2.1-.4 0-.6l-.7-1.8c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.6.1-.9.4-.3.3-1.1 1-1.1 2.4 0 1.4 1 2.8 1.2 3 .2.2 2 3.1 5 4.3.7.3 1.3.5 1.8.7.8.3 1.6.2 2.2.1.7-.1 1.8-.8 2.1-1.5.3-.7.3-1.3.2-1.5-.1-.2-.3-.2-.6-.4Z"/>
+      </svg>
+      <span class="wa-tooltip">Chat with us</span>
+    </a>
+
+    <div class="mobile-sticky-enroll" id="mobileStickyEnroll">
+      <button class="mobile-sticky-close" id="mobileStickyClose" aria-label="Close enrollment bar">×</button>
+      <div class="mobile-sticky-left">
+        <span class="mobile-price">₹34,999</span>
+        <span class="mobile-next">Next batch: Aug 4</span>
+      </div>
+      <button class="mobile-sticky-btn" id="stickyEnrollBtn">Enroll Now</button>
+    </div>
+
     <script>
       (function () {
         emailjs.init({ publicKey: "YOUR_EMAILJS_PUBLIC_KEY" });
       })();
+
+      const NEXT_BATCH_DATE = new Date('2025-08-04');
+      const SEATS_REMAINING = 18;
+      const WHATSAPP_URL = "https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20the%201%25%20SAP%20CPI%20cohort.";
 
       const curriculumData = [
         {
@@ -1415,6 +2235,28 @@
         });
       });
 
+      const faqItems = document.querySelectorAll(".faq-item");
+      faqItems.forEach((item) => {
+        const btn = item.querySelector(".faq-question");
+        const answer = item.querySelector(".faq-answer");
+
+        btn.addEventListener("click", () => {
+          const open = item.classList.contains("open");
+
+          faqItems.forEach((row) => {
+            row.classList.remove("open");
+            row.querySelector(".faq-question").setAttribute("aria-expanded", "false");
+            row.querySelector(".faq-answer").style.maxHeight = "0px";
+          });
+
+          if (!open) {
+            item.classList.add("open");
+            btn.setAttribute("aria-expanded", "true");
+            answer.style.maxHeight = answer.scrollHeight + "px";
+          }
+        });
+      });
+
       const topNav = document.getElementById("topNav");
       const mobileToggle = document.getElementById("mobileToggle");
       const mobileDrawer = document.getElementById("mobileDrawer");
@@ -1444,7 +2286,7 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
 
-      const sections = ["about", "curriculum", "instructors", "pricing", "contact"].map((id) =>
+      const sections = ["about", "curriculum", "outcomes", "faq", "pricing", "contact"].map((id) =>
         document.getElementById(id)
       );
       const navLinks = document.querySelectorAll(".nav-link");
@@ -1485,7 +2327,7 @@
       const payNowBtn = document.getElementById("payNowBtn");
       const paymentStatus = document.getElementById("paymentStatus");
 
-      payNowBtn.addEventListener("click", () => {
+      function openCheckout() {
         paymentStatus.className = "form-status";
         paymentStatus.textContent = "";
 
@@ -1513,7 +2355,98 @@
           paymentStatus.className = "form-status error";
           paymentStatus.textContent = "Payment gateway failed to load. Please check your Razorpay key and internet connection.";
         }
-      });
+      }
+
+      payNowBtn.addEventListener("click", openCheckout);
+      const stickyEnrollBtn = document.getElementById("stickyEnrollBtn");
+      if (stickyEnrollBtn) stickyEnrollBtn.addEventListener("click", openCheckout);
+
+      const countdownRow = document.getElementById("countdownRow");
+      const seatsText = document.getElementById("seatsText");
+      const countDays = document.getElementById("countDays");
+      const countHours = document.getElementById("countHours");
+      const countMins = document.getElementById("countMins");
+      const countSecs = document.getElementById("countSecs");
+      const heroEnrollBtn = document.getElementById("heroEnrollBtn");
+      const heroEnrollBtnDesktop = document.getElementById("heroEnrollBtnDesktop");
+      const heroEnrollBtnMobile = document.getElementById("heroEnrollBtnMobile");
+
+      seatsText.textContent = `Only ${SEATS_REMAINING} seats remaining in this cohort.`;
+
+      let countdownExpired = false;
+      const format2 = (v) => String(v).padStart(2, "0");
+
+      function applyWaitlistState() {
+        if (countdownExpired) return;
+        countdownExpired = true;
+        countdownRow.style.display = "none";
+        seatsText.className = "countdown-live-msg";
+        seatsText.textContent = "🎉 Batch is now live — join the waitlist for the next cohort.";
+        [heroEnrollBtn, heroEnrollBtnDesktop, heroEnrollBtnMobile].forEach((el) => {
+          if (!el) return;
+          el.textContent = "Join Waitlist";
+          el.href = WHATSAPP_URL;
+          el.target = "_blank";
+        });
+      }
+
+      function updateCountdown() {
+        const now = new Date();
+        const diff = NEXT_BATCH_DATE.getTime() - now.getTime();
+
+        if (diff <= 0) {
+          countDays.textContent = "00";
+          countHours.textContent = "00";
+          countMins.textContent = "00";
+          countSecs.textContent = "00";
+          applyWaitlistState();
+          return;
+        }
+
+        const totalSeconds = Math.floor(diff / 1000);
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        countDays.textContent = format2(days);
+        countHours.textContent = format2(hours);
+        countMins.textContent = format2(minutes);
+        countSecs.textContent = format2(seconds);
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+
+      const viewerCountEl = document.getElementById("viewerCount");
+      let viewerCount = Math.floor(Math.random() * (34 - 18 + 1)) + 18;
+      if (viewerCountEl) viewerCountEl.textContent = String(viewerCount);
+
+      function scheduleViewerFluctuation() {
+        const nextInMs = (Math.floor(Math.random() * 8) + 8) * 1000;
+        setTimeout(() => {
+          const increase = Math.random() > 0.45;
+          const delta = increase ? Math.floor(Math.random() * 3) + 1 : Math.floor(Math.random() * 2) + 1;
+          viewerCount = increase ? viewerCount + delta : viewerCount - delta;
+          viewerCount = Math.max(14, Math.min(38, viewerCount));
+          if (viewerCountEl) viewerCountEl.textContent = String(viewerCount);
+          scheduleViewerFluctuation();
+        }, nextInMs);
+      }
+
+      scheduleViewerFluctuation();
+
+      const mobileStickyEnroll = document.getElementById("mobileStickyEnroll");
+      const mobileStickyClose = document.getElementById("mobileStickyClose");
+      if (mobileStickyEnroll && sessionStorage.getItem("hideStickyEnroll") === "1") {
+        mobileStickyEnroll.style.display = "none";
+      }
+      if (mobileStickyClose) {
+        mobileStickyClose.addEventListener("click", () => {
+          mobileStickyEnroll.style.display = "none";
+          sessionStorage.setItem("hideStickyEnroll", "1");
+        });
+      }
 
       const enquiryForm = document.getElementById("enquiryForm");
       const submitBtn = document.getElementById("submitBtn");
