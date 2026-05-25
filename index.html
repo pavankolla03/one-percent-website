@@ -46,28 +46,26 @@
     <meta property="og:description" content="Train like the top 1%. Live sessions, real enterprise scenarios, capstone projects, LinkedIn & resume building." />
     <meta property="og:type" content="website" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%23D4A017'>1%</text></svg>" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@600&f[]=inter@400&display=swap" />
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
       :root {
-        --primary: #0a0a0a;
-        --accent-gold: #d4a017;
-        --accent-cyan: #00d9ff;
-        --accent-magenta: #ff006e;
-        --accent-lime: #00ff88;
-        --accent-purple: #a78bfa;
-        --accent-white: #f5f5f0;
-        --card-bg: #111111;
-        --section-a: #0f0f0f;
-        --section-b: #1a1a1a;
-        --text-primary: #f5f5f0;
-        --text-muted: #888888;
-        --border: #2a2a2a;
-        --danger: #d04f4f;
-        --success: #72d18c;
+        --primary: #0A0A0A;
+        --accent-gold: #C6FF3B;
+        --accent-cyan: #C6FF3B;
+        --accent-magenta: #C6FF3B;
+        --accent-lime: #C6FF3B;
+        --accent-purple: #C6FF3B;
+        --accent-white: #FFFFFF;
+        --card-bg: #0A0A0A;
+        --section-a: #0A0A0A;
+        --section-b: #0A0A0A;
+        --text-primary: #FFFFFF;
+        --text-muted: #A1A1AA;
+        --border: #A1A1AA;
+        --danger: #A1A1AA;
+        --success: #C6FF3B;
       }
 
       * {
@@ -81,10 +79,30 @@
       }
 
       body {
-        font-family: "DM Sans", sans-serif;
+        font-family: "Inter", sans-serif;
         background: var(--primary);
         color: var(--text-primary);
         line-height: 1.6;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      .brand-mark,
+      .hero-title,
+      .plan-price,
+      .metric-value,
+      .countdown-number,
+      .mobile-price,
+      .cert-label,
+      .cert-title,
+      .cert-name,
+      .cert-logo {
+        font-family: "General Sans", sans-serif !important;
+        font-weight: 600 !important;
       }
 
       a {
@@ -834,6 +852,14 @@
         text-align: center;
       }
 
+      .cert-image {
+        width: 100%;
+        max-width: 640px;
+        margin: 0 auto;
+        border: 1px solid var(--border);
+        display: block;
+      }
+
       .cert-logo { font-family: "Playfair Display", serif; color: var(--accent-gold); font-size: clamp(34px, 5vw, 48px); line-height: 1; }
       .cert-brand { color: var(--text-muted); letter-spacing: 0.16em; font-size: 12px; }
       .cert-line { border: none; border-top: 1px solid var(--accent-gold); margin: 10px auto; width: 70%; }
@@ -1013,6 +1039,105 @@
       .wa-float:hover .wa-tooltip { opacity: 1; }
 
       .mobile-sticky-enroll { display: none; }
+
+      #hero,
+      .section,
+      .panel,
+      .card,
+      .metric-card,
+      .outcome-card,
+      .timeline-content,
+      .pricing-card,
+      form,
+      .countdown-box,
+      .mobile-sticky-enroll,
+      .faq-item,
+      .companies-strip,
+      footer {
+        background: #0A0A0A !important;
+      }
+
+      .section,
+      .panel,
+      .card,
+      .metric-card,
+      .outcome-card,
+      .timeline-content,
+      .pricing-card,
+      .countdown-box,
+      .faq-item,
+      form,
+      input,
+      select,
+      textarea,
+      .linkedin-btn,
+      .tag,
+      .company-pill,
+      .mobile-sticky-btn,
+      .mobile-sticky-enroll {
+        border-color: #A1A1AA !important;
+      }
+
+      .text-link,
+      .check,
+      .brand-mark,
+      .hero-title .gold,
+      .btn-outline,
+      .btn-outline:hover,
+      .faq-icon,
+      .stars,
+      .role-arrow,
+      .plan-price,
+      .metric-value,
+      .seats-left,
+      .countdown-number,
+      .stage-number,
+      .acc-arrow,
+      .mobile-price,
+      .wa-float {
+        color: #C6FF3B !important;
+      }
+
+      .btn-primary,
+      .wa-float,
+      .outcome-avatar,
+      .mobile-sticky-btn {
+        background: #C6FF3B !important;
+        color: #0A0A0A !important;
+      }
+
+      .section-subtitle,
+      .metric-label,
+      .tagline,
+      .results-note,
+      .cert-note,
+      .cert-muted,
+      .cert-brand,
+      .cert-foot,
+      .timeline-desc,
+      .faq-answer,
+      .mobile-next,
+      .company-pill,
+      .live-viewers,
+      .trust-tags,
+      .marquee-list,
+      .companies-label,
+      .contact-info p {
+        color: #A1A1AA !important;
+      }
+
+      .section::before,
+      #hero::before {
+        background-image: radial-gradient(rgba(198, 255, 59, 0.11) 1px, transparent 1px) !important;
+      }
+
+      #hero::after {
+        background: radial-gradient(circle, rgba(198, 255, 59, 0.18), rgba(198, 255, 59, 0) 70%) !important;
+      }
+
+      .wa-float::after {
+        border-color: rgba(198, 255, 59, 0.55) !important;
+      }
 
       .accordion {
         border: 1px solid var(--border);
@@ -1795,24 +1920,8 @@
           <p class="results-note animate" data-delay="340">Results shown are from real program participants. Individual outcomes vary.</p>
 
           <p class="cert-label animate" data-delay="360">Certificate of Completion</p>
-          <div class="cert-wrap animate" data-delay="420">
-            <div>
-              <div class="cert-logo">1%</div>
-              <p class="cert-brand">ONE PERCENT</p>
-              <hr class="cert-line" />
-              <p class="cert-title">Certificate of Completion</p>
-              <p class="cert-muted">This certifies that</p>
-              <p class="cert-name">[Your Name]</p>
-              <p class="cert-muted">has successfully completed the</p>
-              <p class="cert-program">SAP Integration Suite — Enterprise Program</p>
-              <hr class="cert-line" />
-            </div>
-            <div class="cert-signatures">
-              <div class="cert-signature">Pavan Kolla<br />Instructor</div>
-              <div class="cert-signature">Gunashekar Ch<br />Instructor</div>
-              <div class="cert-signature">Nanda Kishore D<br />Instructor</div>
-            </div>
-            <p class="cert-foot">1% — One Percent · 2025</p>
+          <div class="animate" data-delay="420">
+            <img class="cert-image" src="assets/certificate/certificate-preview.jpeg" alt="1% Certificate of Completion preview" loading="lazy" />
           </div>
           <p class="cert-note animate" data-delay="500">Awarded upon completing all projects and capstone deliverables.</p>
         </div>
